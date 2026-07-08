@@ -1,0 +1,4 @@
+interface:
+  display_name: "中文专利交底书.skill"
+  short_description: "从论文、代码、技术方案或专利模板提炼创新点并撰写交底书。"
+  default_prompt: "使用 $chinese-patent-disclosure，根据论文、代码、技术方案或现有专利模板完成项目扫描、专利点提炼、查新、交底书撰写和自检。"
