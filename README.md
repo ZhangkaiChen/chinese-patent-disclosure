@@ -1,6 +1,8 @@
 # 中文专利交底书.skill
 
-![中文专利交底书 Skill](assets/icon.svg)
+<p align="center">
+  <img src="assets/patent-skill-banner.png" alt="AI方向发明专利撰写技能宣传图" width="100%" />
+</p>
 
 面向论文、代码、模型结构、实验材料和现有专利模板的中文发明专利交底书撰写 Skill。它用于把科研或工程材料整理为可交给代理人继续处理的专利交底书，重点强调项目扫描、专利点提炼、查新、公式自检、关键点/保护点归纳和迭代修订。
 
@@ -43,6 +45,42 @@ Copy-Item -Recurse -Force .\chinese-patent-disclosure "$env:USERPROFILE\.codex\s
 
 安装后重启 Codex。
 
+### 方式三：给 Claude Code 使用
+
+Claude Code 支持以 Skill 目录形式扩展能力，目录根部需要包含 `SKILL.md`。个人级 Skill 放在 `~/.claude/skills/<skill-name>/SKILL.md`，可在所有项目中使用；项目级 Skill 放在当前仓库的 `.claude/skills/<skill-name>/SKILL.md`，只对该项目生效。命令名来自目录名，因此本技能安装后可用 `/chinese-patent-disclosure` 调用，也可以让 Claude Code 根据任务描述自动触发。
+
+个人级安装，Windows PowerShell：
+
+```powershell
+git clone https://github.com/ZhangkaiChen/chinese-patent-disclosure.git
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude\skills" | Out-Null
+Copy-Item -Recurse -Force .\chinese-patent-disclosure "$env:USERPROFILE\.claude\skills\chinese-patent-disclosure"
+```
+
+个人级安装，macOS / Linux：
+
+```bash
+git clone https://github.com/ZhangkaiChen/chinese-patent-disclosure.git
+mkdir -p ~/.claude/skills
+cp -R chinese-patent-disclosure ~/.claude/skills/chinese-patent-disclosure
+```
+
+项目级安装，适合只在当前代码仓库中启用：
+
+```bash
+mkdir -p .claude/skills
+git clone https://github.com/ZhangkaiChen/chinese-patent-disclosure.git .claude/skills/chinese-patent-disclosure
+```
+
+如果是在 Claude Code 会话启动后首次创建顶层 `skills` 目录，建议重启 Claude Code；如果目录已存在，后续修改 `SKILL.md` 通常会被自动检测。使用示例：
+
+```text
+/chinese-patent-disclosure 阅读这篇论文和代码，先提炼候选专利点，再等我确认后撰写中文发明专利交底书。
+```
+
+使用第三方 Skill 前建议先阅读 `SKILL.md`、`scripts/` 和 `references/` 中的内容，确认其符合自己的安全和隐私要求。
+
+更多规则可参考 [Claude Code Skills 官方文档](https://docs.anthropic.com/en/docs/claude-code/skills)。
 ## 使用方式
 
 安装后可以直接调用：
@@ -90,6 +128,7 @@ chinese-patent-disclosure/
 │   ├── cnipa_epub_crawler.py
 │   └── requirements-cnipa.txt
 ├── assets/icon.svg
+├── assets/patent-skill-banner.png
 └── examples/usage.md
 ```
 
@@ -106,6 +145,11 @@ python -m playwright install chromium
 
 脚本来源于 `handsomestWei/patent-disclosure-skill` 的 CNIPA 检索工具组，并随附原 MIT 许可文本：`scripts/LICENSE.patent-disclosure-skill`。
 
+## 开源与致谢
+
+本 Skill 的构建参考了 [handsomestWei/patent-disclosure-skill](https://github.com/handsomestWei/patent-disclosure-skill) 的整体架构和工作思路，尤其是项目扫描、候选专利点分析、查新检索、交底书成稿和自检迭代等流程设计。在此基础上，本项目结合实际中文发明专利交底书撰写过程进行了轻量化和个性化修改，弱化强制门禁，强调按需加载、论文/代码到专利点的提炼、与既有交底书模板风格对齐，以及小修改高亮、大版本另存的迭代方式，便于用户以更轻量的方式完成专利撰写工作。
+
+其中，国知局公布公告检索相关脚本参考并保留原项目的 MIT 许可说明，详见 `scripts/LICENSE.patent-disclosure-skill`。感谢原项目作者的开源工作。
 ## 示例效果
 
 ### 候选专利点输出
